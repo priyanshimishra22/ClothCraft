@@ -12,6 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
   const mysql = require('mysql');
   const bodyparser = require('body-parser');
   const dotenv = require('dotenv');
+  const ejs = require('ejs');
+  
 
   var port = process.env.PORT || 5000;
   app.use(bodyparser.json());
@@ -48,6 +50,18 @@ const e = require('express')
     email => users.find(user => user.email === email),
     id => users.find(user => user.id === id)
   )
+
+  
+
+app.use(
+  session({
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+  
   
  
   app.use( express.static( "public" ) )
@@ -62,6 +76,7 @@ const e = require('express')
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(methodOverride('_method'))
+
   
   app.get('/', checkAuthenticated, (req, res) => {
     let sql1 = 'SELECT SUM(Amount) AS TotalItemsOrdered FROM ordersdb';
@@ -167,9 +182,49 @@ const e = require('express')
   })
   
   app.delete('/logout', (req, res) => {
+    
     req.logOut()
     res.redirect('/login')
   })
+
+  app.get('/logout', (req, res) => {
+    req.logout((err) => {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      res.redirect('/login'); // Redirect to the login page after logout
+    });
+  });
+  
+
+  // app.post("/logout", (req, res) => {
+  //   req.logout((err) => {
+  //     if (err) {
+  //       console.error(err);
+  //       return res.status(500).send("Internal Server Error");
+  //     }
+  //     // Additional logic after logout (if needed)
+  //     res.redirect("/login");
+  //   });
+  // });
+
+ 
+  // app.get("/logout", (req, res) => {
+  //   // Your logout logic here
+  //   req.logout(); // Assuming you're using Passport.js for authentication
+  
+  //   // Redirect to the home page or any other desired page
+  //   res.redirect("/login");
+  // });
+
+  // app.post("/logout", (req, res) => {
+  //   req.logout();
+  //   res.redirect("/login");
+  // });
+  
+  
+  
   
   function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -205,7 +260,7 @@ const e = require('express')
         let sql1 = 'SELECT * FROM ordersdb'
         let query1 = mysqlConnection.query(sql1, (err1, rows1, fields1)=>{
           if(!err1){
-            res.render('orders.ejs',{
+            res.render('vieworders.ejs',{
               orders:rows, sub_orders:rows1, selected_item:'None', month_name:'None', year:'None'
             });
            }

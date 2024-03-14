@@ -13,14 +13,15 @@
     <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
     <title>Bill</title>
   </head>
-  <body>
+  <body style="background: rgb(118,181,248);
+  background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
     <!--Vertical Navbar-->
   <div class="vertical-nav bg-white" id="sidebar">
-    <div class="py-4 px-3 mb-4" style="background: linear-gradient(to top, #0066eb 0%, #ff8ab3 68%);">
+    <div class="py-4 px-3 mb-4" style="background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
       <div class="media d-flex align-items-center"><img src="admin.svg" alt="..." width="65" class="mr-3 rounded-circle img-thumbnail shadow-sm">
         &emsp;<div class="media-body">
-          <h4 class="m-0"><p class="text-white"><shop-name></h4>
-            <p class="font-weight-light text-white mb-0">(Admin)</p>
+          <h4 class="m-0"><p class="text-white">Cloth Craft<shop-name></h4>
+            <p class="font-weight-light text-white mb-0">Admin</p>
         </div>
       </div>
     </div>
@@ -39,7 +40,7 @@
               </a>
       </li>
       <li class="nav-item">
-        <a href="/billing" class="nav-link text-dark font-italic" style="background: linear-gradient(to right, #0066eb 0%, #ff8ab3 68%);">
+        <a href="/billing" class="nav-link text-dark font-italic" style="background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
           <p class="text-white"><i class="rupee sign icon"></i>
                   Bill
                   </p>
@@ -112,7 +113,7 @@
   <!-- End vertical navbar -->
   
      <!-- Page content holder -->
-  <div class="page-content p-5" id="content" style="background: linear-gradient(to right, #e9edf1 47%, #ff8ab3 100%);">
+  <div class="page-content p-5" id="content" style="background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
     <!-- Toggle button -->
     <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4"><i class="align justify icon"></i><small class="text-uppercase font-weight-bold">Menu</small></button>
   
@@ -126,7 +127,7 @@
     <form action="/submitbill" method="POST">
     <table class="ui inverted pink celled table celled tbl_code_with_mark" id="myTable">
       <thead>
-        <tr style="background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+        <tr style="background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
           <th>Item No.</th>
           <th>Item ID</th>
           <th>Item Name</th>
@@ -213,6 +214,19 @@
       </form>
       
       <button class="ui green submit button" type="button" onclick="downloadInvoice()">Download Bill</button></center>
+        <div style="max-width: 400px; margin: 20px auto; padding: 20px; border: 2px solid #ccc; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <form action="https://formspree.io/f/mnqevdrq" method="POST">
+          <label for="email">Your email:</label>
+          <input type="email" style="display: block; margin-bottom: 8px;" name="email" required/>
+      
+          <label for="message" style="display: block; margin-top: 12px; margin-bottom: 8px;" >Your total bill is:</label>
+          <textarea name="message" style="width: 100%; padding: 8px;" required>{total_amount}</textarea>
+          
+          <button type="submit" class="btn btn-primary mt-3" style="display: block; width: 100%; padding: 10px; border: none; border-radius: 6px; background-color: #007bff; color: #fff;">Send Email</button>
+          <input name="subject" style="width: 100%; margin-top: 12px; padding: 8px;" value="Need help with order" />
+        </form>
+        </div>
+      
 
         <h4 class="ui horizontal divider header">
           <i class="rupee sign icon"></i>
@@ -220,7 +234,7 @@
         </h4>
         <br>
         <center>
-            <div class="card text-dark" style="width: 12rem;background: linear-gradient(to left, #0066eb 0%, #ff8ab3 68%);">
+            <div class="card text-dark" style="width: 12rem;background: linear-gradient(138deg, rgba(118,181,248,1) 0%, rgba(255,239,195,1) 76%, rgba(255,195,179,1) 100%);">
               
               <div class="card-body">
                 <div class="form-floating">
@@ -440,6 +454,21 @@
     var date_format = new Date();
     var bill_name = "SHW"+ date_format.getDate() + date_format.getMonth() + date_format.getFullYear() + date_format.getHours() + date_format.getMinutes() + date_format.getSeconds()
     easyinvoice.download(`${bill_name}.pdf`, result.pdf);
+//     <form
+//   action="https://formspree.io/f/mnqevdrq"
+//   method="POST"
+// >
+//   <label>
+//     Your email:
+//     <input type="email" name="email"/>
+//   </label>
+//   <label>
+//     Your message:
+//     <textarea name="message"></textarea>
+//   </label>
+//   <!-- your other form fields go here -->
+//   <button type="submit">Send</button>
+// </form>
     //	you can download like this as well:
     //	easyinvoice.download();
     //	easyinvoice.download('myInvoice.pdf');
@@ -474,6 +503,7 @@
     }
   }
   console.log(items_arr)
+  
   return {
     //"documentTitle": "RECEIPT", //Defaults to INVOICE
     "currency": "INR",
@@ -482,16 +512,18 @@
     "marginRight": 25,
     "marginLeft": 25,
     "marginBottom": 25,
-    "logo": "https://i.pinimg.com/564x/47/7c/4c/477c4c269034cc0bc048409346ac83e9.jpg", //or base64
+    "logo": "https://st3.depositphotos.com/4263287/14688/v/450/depositphotos_146883229-stock-illustration-cc-c-c-white-yellow.jpg", //or base64
     //"logoExtension": "png", //only when logo is base64
     "sender": {
-      "company": "<shop-name>",
-      "address": "<shop-address>",
-      "zip": "<shop-zip>",
-      "city": "<shop-city>",
-      "country": "Mob. - <shop-owner-mobile-number>",
+      "company": "Cloth Craft",
+      "address":"RR Nagar",
+      "zip": "560098",
+      "city": "Bangalore",
+      "country": "India",
+      "Mob"    : "9876543221",
+
        
-      "custom1": "GST No. - <shop-gst-no.>"
+      "custom1": "GST No. - A12BGF456NVER28"
       //"custom2": "custom value 2",
       //"custom3": "custom value 3"
     },
@@ -500,7 +532,7 @@
     "invoiceDate": transaction_date,
     "invoiceTime": transaction_time,
     "products": items_arr,
-    "bottomNotice": "Thank You for shopping from <shop-name>. We are looking forward to your next visit !"
+    "bottomNotice": "Thank You for shopping from Cloth Craft. We are looking forward to your next visit !"
   };
 }
 
